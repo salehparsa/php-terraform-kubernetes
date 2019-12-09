@@ -1,6 +1,19 @@
-#  (WIP) Deploy PHP on Kubernetes via Terraform
+#  Deploy PHP on Kubernetes via Terraform
 
-It helps you to deploy PHP application in Kubernetes
+This repo demonstrates how you can deploy a ```hello world``` application in Kubernetes via Terraform.
+
+```
+.
+├── app
+│   └── index.php 
+├── config
+│   └── nginx.conf
+├── deployment.tf
+├── nginx.cm.tf
+├── php.cm.tf
+├── services.tf
+└─── main.tf
+```
 
 ### Kubernetes Config
 
