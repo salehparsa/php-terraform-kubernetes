@@ -2,10 +2,11 @@ resource "kubernetes_deployment" "php-deployment" {
   metadata {
     name = "terraform-php"
     labels = {
-     app = "php-app"
-     release = "dev"
-     tier = "backend"
+     app = "${var.app_name}"
+     release = "${var.release}"
+     tier = "${var.tier}"
     }
+    namespace = "${var.namespace}"
   }
 
   spec {
@@ -13,18 +14,18 @@ resource "kubernetes_deployment" "php-deployment" {
 
     selector {
       match_labels = {
-        app = "php-app"
-        release = "dev"
-        tier = "backend"
+        app = "${var.app_name}"
+        release = "${var.release}"
+        tier = "${var.tier}"
       }
     }
 
     template {
       metadata {
         labels = {
-        app = "php-app"
-        release = "dev"
-        tier = "backend"
+        app = "${var.app_name}"
+        release = "${var.release}"
+        tier = "${var.tier}"
         }
       }
 
@@ -78,12 +79,12 @@ resource "kubernetes_deployment" "php-deployment" {
 
           volume_mount {
               name = "php-config-map"
-              mount_path = "/var/www/html"
+              mount_path = "${var.php_mount_path}"
           }
 
           volume_mount {
               name = "nginx-config-map"
-              mount_path = "/etc/nginx/nginx.conf"
+              mount_path = "${var.nginx_mount_path}"
               sub_path =  "nginx.conf"
           }
         }
@@ -105,7 +106,7 @@ resource "kubernetes_deployment" "php-deployment" {
           liveness_probe {
             http_get {
               path = "/"
-              port = 80
+              port = 9000
 
               http_header {
                 name  = "X-Custom-Header"
@@ -119,7 +120,7 @@ resource "kubernetes_deployment" "php-deployment" {
 
             volume_mount {
               name = "php-config-map"
-              mount_path = "/var/www/html"
+              mount_path = "${var.php_mount_path}"
           }
         }
       }

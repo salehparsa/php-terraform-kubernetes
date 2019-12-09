@@ -4,9 +4,9 @@ resource "kubernetes_service" "nginx-service" {
   }
   spec {
     selector = {
-        app = "php-app"
-        release = "dev"
-        tier = "backend"
+        app = "${var.app_name}"
+        release = "${var.release}"
+        tier = "${var.tier}"
     }
     session_affinity = "ClientIP"
     port {
