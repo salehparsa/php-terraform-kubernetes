@@ -2,11 +2,11 @@ resource "kubernetes_deployment" "php-deployment" {
   metadata {
     name = "terraform-php"
     labels = {
-     app = "${var.app_name}"
-     release = "${var.release}"
-     tier = "${var.tier}"
+      app     = var.app_name
+      release = var.release
+      tier    = var.tier
     }
-    namespace = "${var.namespace}"
+    namespace = var.namespace
   }
 
   spec {
@@ -14,41 +14,40 @@ resource "kubernetes_deployment" "php-deployment" {
 
     selector {
       match_labels = {
-        app = "${var.app_name}"
-        release = "${var.release}"
-        tier = "${var.tier}"
+        app     = var.app_name
+        release = var.release
+        tier    = var.tier
       }
     }
 
     template {
       metadata {
         labels = {
-        app = "${var.app_name}"
-        release = "${var.release}"
-        tier = "${var.tier}"
+          app     = var.app_name
+          release = var.release
+          tier    = var.tier
         }
       }
 
       spec {
-
         volume {
-            name = "nginx-config-map"
-            config_map {
-                name  = "nginx-config"
-            }
+          name = "nginx-config-map"
+          config_map {
+            name = "nginx-config"
+          }
         }
         volume {
-            name = "php-config-map"
-            config_map {
-                name  = "php-config"
-            }
+          name = "php-config-map"
+          config_map {
+            name = "php-config"
+          }
         }
         container {
           image = "nginx:latest"
           name  = "nginx"
 
           port {
-              container_port = 80
+            container_port = 80
           }
 
           resources {
@@ -78,14 +77,14 @@ resource "kubernetes_deployment" "php-deployment" {
           }
 
           volume_mount {
-              name = "php-config-map"
-              mount_path = "${var.php_mount_path}"
+            name       = "php-config-map"
+            mount_path = var.php_mount_path
           }
 
           volume_mount {
-              name = "nginx-config-map"
-              mount_path = "${var.nginx_mount_path}"
-              sub_path =  "nginx.conf"
+            name       = "nginx-config-map"
+            mount_path = var.nginx_mount_path
+            sub_path   = "nginx.conf"
           }
         }
         container {
@@ -118,12 +117,13 @@ resource "kubernetes_deployment" "php-deployment" {
             period_seconds        = 3
           }
 
-            volume_mount {
-              name = "php-config-map"
-              mount_path = "${var.php_mount_path}"
+          volume_mount {
+            name       = "php-config-map"
+            mount_path = var.php_mount_path
           }
         }
       }
     }
   }
 }
+

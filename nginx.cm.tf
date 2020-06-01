@@ -4,7 +4,7 @@ resource "kubernetes_config_map" "nginx" {
   }
 
   data = {
-    "nginx.conf" = "${file("${path.module}/config/nginx.conf")}"
+    "nginx.conf" = file("${path.module}/config/nginx.conf")
   }
-
 }
+

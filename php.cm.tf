@@ -4,7 +4,7 @@ resource "kubernetes_config_map" "php" {
   }
 
   data = {
-    "index.php" = "${file("${path.module}/app/index.php")}"
+    "index.php" = file("${path.module}/app/index.php")
   }
-
 }
+

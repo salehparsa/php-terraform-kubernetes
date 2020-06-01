@@ -37,3 +37,4 @@ variable "php_mount_path" {
   description = "Mount Path of Nginx"
   default     = "/var/www/html"
 }
+
